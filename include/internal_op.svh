@@ -1,28 +1,53 @@
-`ifndef ALU_OP
-`define ALU_OP
-    `define ADD     4'b0000
-    `define SUB     4'b0001
-    `define SLL     4'b0010
-    `define SLT     4'b0011
-    `define SLTU    4'b0100
-    `define XOR     4'b0101
-    `define SRL     4'b0110
-    `define SRA     4'b0111
-    `define OR      4'b1000
-    `define AND     4'b1001
-    `define MUL     4'b1010
-    `define MULH    4'b1011
-    `define MULHSU  4'b1100
-    `define MULHU   4'b1101
-    `define SET     4'b1110
-    `define CLR     4'b1111
+`ifndef ALU_INST
+`define ALU_INST
+    `define ALU_ADD     4'b0000
+    `define ALU_SUB     4'b0001
+    `define ALU_SLL     4'b0010
+    `define ALU_SLT     4'b0011
+    `define ALU_SLTU    4'b0100
+    `define ALU_XOR     4'b0101
+    `define ALU_SRL     4'b0110
+    `define ALU_SRA     4'b0111
+    `define ALU_OR      4'b1000
+    `define ALU_AND     4'b1001
+    `define ALU_MUL     4'b1010
+    `define ALU_MULH    4'b1011
+    `define ALU_MULHSU  4'b1100
+    `define ALU_MULHU   4'b1101
+    `define ALU_CSRSET  4'b1110
+    `define ALU_CSRCLR  4'b1111
 `endif
 
-`ifndef WB_SRC
-`define WB_SRC
-    `define WB_SRC_WEN wb_src[2]
-    `define WB_SRC_SRC wb_src[1:0]
-    `define DATAMEM 2'd0
-    `define RESULT 2'd1
-    `define CSR_DATAOUT 2'd2
+`ifndef WB_INST
+`define WB_INST
+    `define WB_DATAMEM      2'd0
+    `define WB_RESULT       2'd1
+    `define WB_CSR_DATAOUT  2'd2
+`endif
+
+`ifndef MEM_INST
+`define MEM_INST
+    `define MEM_NO_OP   2'b00
+    //`define MEM_NO_OP 2'b01
+    `define MEM_READ    2'b10
+    `define MEM_WRITE   2'b11
+
+    `define MEM_UNSIGNED    1'b0
+    `define MEM_SIGNED      1'b1
+
+    `define MEM_BYTE    2'b00
+    `define MEM_HALF    2'b01
+    `define MEM_WORD    2'b10
+    `define MEM_DWORD   2'b11
+`endif
+
+`ifndef CSR_INST
+`define CSR_INST
+    `define CSR_RESULT  1'b0
+    `define CSR_REG1    1'b1
+
+    `define CSR_INSTRETH    12'b1100_1000_0010
+    `define CSR_INSTRET     12'b1100_0000_0010
+    `define CSR_CYCLEH      12'b1100_1000_0000
+    `define CSR_CYCLE       12'b1100_0000_0000
 `endif
