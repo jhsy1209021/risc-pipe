@@ -12,7 +12,7 @@ module d_e_ppreg(
     input [4:0] rd,
     input [2:0] wb_src,
     input [1:0] data_dependency_check,
-    input [12:0] csr_op,
+    input [15:0] csr_op,
 
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,
@@ -24,7 +24,7 @@ module d_e_ppreg(
     output reg [3:0] alu_op_out,
     output reg [2:0] wb_src_out,
     output reg [1:0] data_dependency_check_out,
-    output reg [12:0] csr_op_out
+    output reg [15:0] csr_op_out
 );
 
 always@(posedge clk) begin
