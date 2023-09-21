@@ -23,7 +23,7 @@ module decoder(
     output reg [2:0] wb_src,
     output reg [3:0] alu_op,
     output reg [4:0] mem_op,
-    output reg [12:0] csr_op,
+    output reg [15:0] csr_op,
     output reg [1:0] data_dependency_check
 );
 
@@ -374,30 +374,54 @@ always@(*) begin
 
     if(`OPCODE == `SYSTEM) begin
         case(`FUNCT3)
-            3'b001,
-            3'b101: begin
+            3'b001: begin
                 `CSR_WEN = (`RD == 5'd0) ? 1'b0 : 1'b1;
-                `CSR_WRITE_SRC = `CSR_REG1;
+                `CSR_OPERAND_TYPE = `CSR_REG;
+                `CSR_CALC_OP = `CSR_NO_OP;
             end
 
-            3'b010,
-            3'b011,
-            3'b110,
+            3'b101: begin
+                `CSR_WEN = (`RD == 5'd0) ? 1'b0 : 1'b1;
+                `CSR_OPERAND_TYPE = `CSR_IMM;
+                `CSR_CALC_OP = `CSR_NO_OP;
+            end
+
+            3'b010: begin
+                `CSR_WEN = (`RD == 5'd0) ? 1'b0 : 1'b1;
+                `CSR_OPERAND_TYPE = `CSR_REG;
+                `CSR_CALC_OP = `CSR_SET;
+            end
+
+            3'b110: begin
+                `CSR_WEN = (`RD == 5'd0) ? 1'b0 : 1'b1;
+                `CSR_OPERAND_TYPE = `CSR_IMM;
+                `CSR_CALC_OP = `CSR_SET;
+            end
+
+            3'b011: begin
+                `CSR_WEN = (`RD == 5'd0) ? 1'b0 : 1'b1;
+                `CSR_OPERAND_TYPE = `CSR_REG;
+                `CSR_CALC_OP = `CSR_CLR;
+            end
+
             3'b111: begin
                 `CSR_WEN = (`RD == 5'd0) ? 1'b0 : 1'b1;
-                `CSR_WRITE_SRC = `CSR_RESULT;
+                `CSR_OPERAND_TYPE = `CSR_IMM;
+                `CSR_CALC_OP = `CSR_CLR;
             end
 
             default: begin
                 `CSR_WEN = 1'b0;
-                `CSR_WRITE_SRC = `CSR_REG1;
+                `CSR_OPERAND_TYPE = `CSR_REG;
+                `CSR_CALC_OP = `CSR_NO_OP;
             end
         endcase
     end
 
     else begin
         `CSR_WEN = 1'b0;
-        `CSR_WRITE_SRC = `CSR_REG1;
+        `CSR_OPERAND_TYPE = `CSR_REG;
+        `CSR_CALC_OP = `CSR_NO_OP;
     end
 end
 

@@ -43,8 +43,12 @@
 
 `ifndef CSR_INST
 `define CSR_INST
-    `define CSR_RESULT  1'b0
-    `define CSR_REG1    1'b1
+    `define CSR_REG     1'b0
+    `define CSR_IMM     1'b1
+    
+    `define CSR_NO_OP   2'b00
+    `define CSR_SET     2'b01
+    `define CSR_CLR     2'b10
 
     `define CSR_INSTRETH    12'b1100_1000_0010
     `define CSR_INSTRET     12'b1100_0000_0010
