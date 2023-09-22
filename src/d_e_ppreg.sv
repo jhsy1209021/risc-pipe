@@ -2,6 +2,7 @@ module d_e_ppreg(
     input clk,
     input nrst,
     input stall,
+    input flush,
     input [4:0] rs1,
     input [4:0] rs2,
     input [31:0] pc,
@@ -55,6 +56,20 @@ always@(posedge clk) begin
             wb_src_out <= wb_src_out;
             data_dependency_check_out <= data_dependency_check_out;
             csr_op_out <= csr_op_out;
+        end
+
+        else if(flush) begin
+            rs1_out <= 5'd0;
+            rs2_out <= 5'd0;
+            rd_out <= 5'd0;
+            pc_out <= 32'd0;
+            operand1_out <= 32'd0;
+            operand2_out <= 32'd0;
+            mem_op_out <= 5'd0;
+            alu_op_out <= 4'd0;
+            wb_src_out <= 3'd0;
+            data_dependency_check_out <= 2'd0;
+            csr_op_out <= 13'd0;
         end
 
         else begin
