@@ -1,5 +1,3 @@
-`include "decoder.svh"
-
 `define OPCODE  inst[6:0]
 `define RD      inst[11:7]
 `define FUNCT3  inst[14:12]

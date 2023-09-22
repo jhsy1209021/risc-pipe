@@ -1,5 +1,6 @@
 `ifndef DECODER
 `define DECODER
+    `include "decoder.sv"
     `include "opcode.svh"
     `include "internal_op.svh"
 

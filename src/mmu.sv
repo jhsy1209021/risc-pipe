@@ -1,5 +1,3 @@
-`include "mmu.svh"
-
 module mmu(
     input [4:0] mem_op,
     input [31:0] store_data,

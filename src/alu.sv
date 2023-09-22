@@ -1,5 +1,3 @@
-`include "alu.svh"
-
 module alu(
     input [3:0] alu_op,
     input [31:0] operand1,
