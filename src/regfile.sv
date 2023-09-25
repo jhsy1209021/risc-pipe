@@ -30,9 +30,9 @@ always@(posedge clk) begin
 end
 
 //Read decoder --> rdata1
-assign rdata1 = register_bank[raddr1];
+assign rdata1 = (raddr1 == 5'd0) ? 32'd0 : register_bank[raddr1];
 
 //read decoder --> rdata2
-assign rdata2 = register_bank[raddr2];
+assign rdata2 = (raddr2 == 5'd0) ? 32'd0 : register_bank[raddr2];
 
 endmodule
