@@ -3,6 +3,7 @@ module d_e_ppreg(
     input nrst,
     input stall,
     input flush,
+    input is_a_inst,
     input [4:0] rs1,
     input [4:0] rs2,
     input [31:0] pc,
@@ -15,6 +16,7 @@ module d_e_ppreg(
     input [1:0] data_dependency_check,
     input [15:0] csr_op,
 
+    output reg is_a_inst_out,
     output reg [4:0] rs1_out,
     output reg [4:0] rs2_out,
     output reg [4:0] rd_out,
@@ -30,6 +32,7 @@ module d_e_ppreg(
 
 always@(posedge clk) begin
     if(~nrst) begin
+        is_a_inst_out <= 1'd0;
         rs1_out <= 5'd0;
         rs2_out <= 5'd0;
         rd_out <= 5'd0;
@@ -45,6 +48,7 @@ always@(posedge clk) begin
 
     else begin
         priority if(stall) begin
+            is_a_inst_out <= is_a_inst_out;
             rs1_out <= rs1_out;
             rs2_out <= rs2_out;
             rd_out <= rd_out;
@@ -59,6 +63,7 @@ always@(posedge clk) begin
         end
 
         else if(flush) begin
+            is_a_inst_out <= 1'd0;
             rs1_out <= 5'd0;
             rs2_out <= 5'd0;
             rd_out <= 5'd0;
@@ -73,6 +78,7 @@ always@(posedge clk) begin
         end
 
         else begin
+            is_a_inst_out <= is_a_inst;
             rs1_out <= rs1;
             rs2_out <= rs2;
             rd_out <= rd;
