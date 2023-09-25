@@ -4,6 +4,14 @@
     `include "opcode.svh"
     `include "internal_op.svh"
 
+    `define OPCODE  inst[6:0]
+    `define RD      inst[11:7]
+    `define FUNCT3  inst[14:12]
+    `define RS1     inst[19:15]
+    `define RS2     inst[24:20]
+    `define FUNCT7  inst[31:25]
+    `define CSR     inst[31:20]
+
     //wb_src bitmap
     `define WB_WEN  wb_src[2]
     `define WB_SRC  wb_src[1:0]

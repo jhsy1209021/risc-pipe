@@ -1,16 +1,10 @@
-`define OPCODE  inst[6:0]
-`define RD      inst[11:7]
-`define FUNCT3  inst[14:12]
-`define RS1     inst[19:15]
-`define RS2     inst[24:20]
-`define FUNCT7  inst[31:25]
-`define CSR     inst[31:20]
-
 module decoder(
     input [31:0] inst,
     output is_auipc,
     output is_jump,
     output is_branch,
+    output reg is_csr_op,
+    output reg is_a_inst,
     output [4:0] rd,
     output [4:0] rs1,
     output [4:0] rs2,
@@ -31,6 +25,47 @@ assign is_branch = (`OPCODE == `BRANCH);
 assign rd = `RD;
 assign rs1 = `RS1;
 assign rs2 = `RS2;
+
+//Combinational --> indicate this stage contains a instuction
+always@(*) begin
+    case(`OPCODE)
+        `LUI,
+        `AUIPC,
+        `JAL,
+        `JALR,
+        `BRANCH,
+        `LOAD,
+        `STORE,
+        `OP_IMM,
+        `OP,
+        `SYSTEM:
+            is_a_inst = 1'b1;
+
+        default:
+            is_a_inst = 1'b0;
+    endcase
+end
+
+//Combinational --> tell the hazard_eleminator there is a csr operation
+always@(*) begin
+    if(`OPCODE == `SYSTEM) begin
+        case(`FUNCT3)
+            3'b001,
+            3'b010,
+            3'b011,
+            3'b101,
+            3'b110,
+            3'b111:
+                is_csr_op = 1'b1;
+
+            default:
+                is_csr_op = 1'b0;
+        endcase
+    end
+
+    else
+        is_csr_op = 1'b0;
+end
 
 //Combinational --> imm generation
 always@(*) begin
@@ -181,7 +216,7 @@ always@(*) begin
         end
 
         default: begin
-            //`BRANCH, `STORE, `SYSTEM
+            //`BRANCH, `STORE
             `WB_WEN = 1'b0;
             `WB_SRC = 1'b0;
         end
