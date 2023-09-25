@@ -11,26 +11,23 @@ module wb_unit(
 );
 
 assign reg_addr = rd;
+assign wen = wb_src[2];
 
 always@(*) begin
     case(wb_src[1:0])
         `WB_DATAMEM: begin
-            wen = 1'b1;
             rdata = dmem_dataout;
         end
 
         `WB_RESULT: begin
-            wen = 1'b1;
             rdata = result;
         end
 
         `WB_CSR_DATAOUT: begin
-            wen = 1'b1;
             rdata = csr_dataout;
         end
 
         default: begin
-            wen = 1'b0;
             rdata = result;
         end
     endcase
