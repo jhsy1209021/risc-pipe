@@ -6,29 +6,29 @@ module wb_unit(
     input [31:0] csr_dataout,
     
     output reg wen,
-    output [4:0] reg_addr,
-    output reg [31:0] rdata
+    output [4:0] waddr,
+    output reg [31:0] wdata
 );
 
-assign reg_addr = rd;
+assign waddr = rd;
 assign wen = wb_src[2];
 
 always@(*) begin
     case(wb_src[1:0])
         `WB_DATAMEM: begin
-            rdata = dmem_dataout;
+            wdata = dmem_dataout;
         end
 
         `WB_RESULT: begin
-            rdata = result;
+            wdata = result;
         end
 
         `WB_CSR_DATAOUT: begin
-            rdata = csr_dataout;
+            wdata = csr_dataout;
         end
 
         default: begin
-            rdata = result;
+            wdata = result;
         end
     endcase
 end
