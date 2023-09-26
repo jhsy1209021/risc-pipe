@@ -3,7 +3,7 @@ module f1_f2_ppreg(
     input nrst,
     input stall,
     input flush,
-    input [31:0] pc_in,
+    input [31:0] pc,
     output reg [31:0] pc_out
 );
 
@@ -18,7 +18,7 @@ always(posedge clk) begin
         else if(flush)
             pc_out <= 32'd0;
         else
-            pc_out <= pc_in;
+            pc_out <= pc;
     end
 end
 

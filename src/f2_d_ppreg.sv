@@ -5,8 +5,8 @@ module f2_d_ppreg(
     input nrst,
     input stall,
     input flush,
-    input [31:0] inst_in,
-    input [31:0] pc_in,
+    input [31:0] inst,
+    input [31:0] pc,
     output reg [31:0] inst_out,
     output reg [31:0] pc_out
 );
@@ -29,8 +29,8 @@ always@(posedge clk) begin
         end
 
         else begin
-            inst_out <= inst_in;
-            pc_out <= pc_in;
+            inst_out <= inst;
+            pc_out <= pc;
         end
     end
 end
