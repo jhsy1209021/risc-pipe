@@ -30,7 +30,7 @@ module forwarding_unit(
     input [4:0] wb_rd,
     input [31:0] wb_result,
     input [31:0] wb_dmem_dataout,
-    input [31:0] wb_csr_dataout
+    input [31:0] wb_csr_dataout,
     input [2:0] wb_wb_src,
 
     output reg branch_comparator_reg1_sel,

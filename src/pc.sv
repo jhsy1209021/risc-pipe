@@ -4,7 +4,7 @@ module pc(
     input stall,
     input is_branch,
     input is_jump,
-    input is_auipc
+    input is_auipc,
     input [31:0] new_pc,
     output reg [31:0] pc_out
 );
