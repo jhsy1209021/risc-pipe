@@ -1,6 +1,5 @@
 `ifndef DECODER
 `define DECODER
-    `include "decoder.sv"
     `include "opcode.svh"
     `include "internal_op.svh"
 
@@ -26,4 +25,6 @@
     `define CSR_OPERAND_TYPE    csr_op[14]
     `define CSR_CALC_OP         csr_op[13:12]
     `define CSR_REG_ADDR        csr_op[11:0]
+
+    `include "decoder.sv"
 `endif
