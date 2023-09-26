@@ -17,10 +17,10 @@ always@(*) begin
         3'b001:
             compare_result = (operand1 != operand2);
         3'b100:
-            compare_result = ((signed operand1) < (signed operand2));
+            compare_result = (($signed(operand1)) < ($signed(operand2)));
         3'b101:
-            compare_result = ((signed operand1) >= (signed operand2));
-        3'b110
+            compare_result = (($signed(operand1)) >= ($signed(operand2)));
+        3'b110:
             compare_result = (operand1 < operand2);
         3'b111:
             compare_result = (operand1 >= operand2);

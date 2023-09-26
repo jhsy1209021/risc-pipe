@@ -5,7 +5,7 @@ module mmu(
 
     output [31:0] addrin,
     output [31:0] datain,
-    output [3:0] wen
+    output reg [3:0] wen
 );
 
 assign addrin = addr;

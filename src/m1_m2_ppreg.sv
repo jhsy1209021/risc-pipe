@@ -36,7 +36,7 @@ always@(posedge clk) begin
     end 
 
     else begin
-        is_a_inst_out <= is_a_inst,
+        is_a_inst_out <= is_a_inst;
         result_out <= result;
         rd_out <= rd;
         wb_src_out <= wb_src;

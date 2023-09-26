@@ -239,7 +239,7 @@ branch_comparator _branch_comparator(
     .operand1(branch_comparator_operand1),
     .operand2(branch_comparator_operand2),
     
-    .output branch_take(_from_branch_comparator_branch_take)
+    .branch_take(_from_branch_comparator_branch_take)
 );
 
 //Mux --> selecting d_e_ppreg_operand1

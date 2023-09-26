@@ -1,4 +1,4 @@
-`define NOP 0h00000013
+`define NOP 32'h00000013
 
 module f2_d_ppreg(
     input clk,

@@ -69,7 +69,7 @@ end
 
 //Combinational --> imm generation
 always@(*) begin
-    case(OPCODE)
+    case(`OPCODE)
         //I-Type instruction
         `OP_IMM: begin
             if((`FUNCT3 == 3'b001) | (`FUNCT3 == 3'b101)) //imm is shamt(unsigned)
@@ -149,7 +149,7 @@ end
 always@(*) begin
     case(`OPCODE)
         `OP:
-            operand1_sel = 2'd0;
+            operand2_sel = 2'd0;
 
        `LUI,
        `AUIPC,
@@ -157,15 +157,15 @@ always@(*) begin
        `STORE,
        `OP_IMM,
        `SYSTEM:
-            operand1_sel = 2'd1;
+            operand2_sel = 2'd1;
 
         `JAL,
         `JALR:
-            operand1_sel = 2'd2;
+            operand2_sel = 2'd2;
 
         default:
             //`BRANCH
-            operand1_sel = 2'd0;
+            operand2_sel = 2'd0;
     endcase
 end
 

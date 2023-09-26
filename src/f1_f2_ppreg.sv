@@ -8,7 +8,7 @@ module f1_f2_ppreg(
 );
 
 
-always(posedge clk) begin
+always@(posedge clk) begin
     if(~nrst)
         pc_out <= 32'd0;
 
