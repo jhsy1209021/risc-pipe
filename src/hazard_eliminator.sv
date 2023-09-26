@@ -1,4 +1,4 @@
-module hazard_eleiminator(
+module hazard_eliminator(
     input de_is_csr_op,
     input [4:0] decoded_rs1,
     input [4:0] decoded_rs2,
