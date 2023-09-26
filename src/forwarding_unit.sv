@@ -79,7 +79,7 @@ end
     //Check decoded_rs1 needs forwarding or not
 always@(*) begin
     //Execute
-    priority if((ex_wb_src[2] == 1'b1) && (decoded_rs1 == ex_rd)) begin
+    priority if((ex_wb_src[2] == 1'b1) && (decoded_rs1 == ex_rd) && (de_is_branch == 1'b1)) begin
         if(ex_mem_op[4:3] == `MEM_READ) begin
             branch_comparator_reg1_sel = 1'b0;
             to_de_reg1 = 32'd0;
@@ -101,7 +101,7 @@ always@(*) begin
     end
 
     //Mem1
-    else if((m1_wb_src[2] == 1'b1) && (decoded_rs1 == m1_rd)) begin
+    else if((m1_wb_src[2] == 1'b1) && (decoded_rs1 == m1_rd) && (de_is_branch == 1'b1)) begin
         if(m1_mem_op[4:3] == `MEM_READ) begin
             branch_comparator_reg1_sel = 1'b0;
             to_de_reg1 = 32'd0;
@@ -123,7 +123,7 @@ always@(*) begin
     end
 
     //Mem2
-    else if((m2_wb_src[2] == 1'b1) && (decoded_rs1 == m2_rd)) begin
+    else if((m2_wb_src[2] == 1'b1) && (decoded_rs1 == m2_rd) && (de_is_branch == 1'b1)) begin
         branch_comparator_reg1_sel = 1'b1;
         case(m2_wb_src[1:0])
             `WB_DATAMEM:
@@ -138,7 +138,7 @@ always@(*) begin
     end
 
     //WB
-    else if((wb_wb_src[2] == 1'b1) && (decoded_rs1 == wb_rd)) begin
+    else if((wb_wb_src[2] == 1'b1) && (decoded_rs1 == wb_rd) && (de_is_branch == 1'b1)) begin
         branch_comparator_reg1_sel = 1'b1;
         case(wb_wb_src[1:0])
             `WB_DATAMEM:
@@ -162,7 +162,7 @@ end
     //Check de_reg2 needs forwarding or not
 always@(*) begin
     //Execute
-    priority if((ex_wb_src[2] == 1'b1) && (decoded_rs2 == ex_rd)) begin
+    priority if((ex_wb_src[2] == 1'b1) && (decoded_rs2 == ex_rd) && (de_is_branch == 1'b1)) begin
         if(ex_mem_op[4:3] == `MEM_READ) begin
             branch_comparator_reg2_sel = 1'b0;
             to_de_reg2 = 32'd0;
@@ -184,7 +184,7 @@ always@(*) begin
     end
 
     //Mem1
-    else if((m1_wb_src[2] == 1'b1) && (decoded_rs2 == m1_rd)) begin
+    else if((m1_wb_src[2] == 1'b1) && (decoded_rs2 == m1_rd) && (de_is_branch == 1'b1)) begin
         if(m1_mem_op[4:3] == `MEM_READ) begin
             branch_comparator_reg2_sel = 1'b0;
             to_de_reg2 = 32'd0;
@@ -206,7 +206,7 @@ always@(*) begin
     end
 
     //Mem2
-    else if((m2_wb_src[2] == 1'b1) && (decoded_rs2 == m2_rd)) begin
+    else if((m2_wb_src[2] == 1'b1) && (decoded_rs2 == m2_rd) && (de_is_branch == 1'b1)) begin
         branch_comparator_reg2_sel = 1'b1;
         case(m2_wb_src[1:0])
             `WB_DATAMEM:
@@ -221,7 +221,7 @@ always@(*) begin
     end
 
     //WB
-    else if((wb_wb_src[2] == 1'b1) && (decoded_rs2 == wb_rd)) begin
+    else if((wb_wb_src[2] == 1'b1) && (decoded_rs2 == wb_rd) && (de_is_branch == 1'b1)) begin
         branch_comparator_reg2_sel = 1'b1;
         case(wb_wb_src[1:0])
             `WB_DATAMEM:
