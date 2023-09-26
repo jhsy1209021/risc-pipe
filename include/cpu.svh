@@ -1,0 +1,23 @@
+`ifndef CPU
+`define CPU
+    `include "cpu.sv"
+    `include "addr_gen.svh"
+    `include "alu.svh"
+    `include "branch_comparator.svh"
+    `include "csr_alu.svh"
+    `include "csr_reg_bank.svh"
+    `include "d_e_ppreg.svh"
+    `include "decoder.svh"
+    `include "e_m1_ppreg.svh"
+    `include "f1_f2_ppreg.svh"
+    `include "f2_d_ppreg.svh"
+    `include "forwarding_unit.svh"
+    `include "hazard_eliminator.svh"
+    `include "m1_m2_ppreg.svh"
+    `include "m2_wb_ppreg.svh"
+    `include "mmu.svh"
+    `include "pc.svh"
+    `include "read_aligner.svh"
+    `include "regfile.svh"
+    `include "wb_unit.svh"
+`endif
