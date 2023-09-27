@@ -12,9 +12,9 @@ assign nrst = ~rst;
 //Interconnect Wires//
 //////////////////////
 //cpu
-wire [13:0] _from_cpu_isram_addr;
+wire [15:0] _from_cpu_isram_addr;
 wire [3:0] _from_cpu_dsram_wen;
-wire [13:0] _from_cpu_dsram_addr;
+wire [15:0] _from_cpu_dsram_addr;
 wire [31:0] _from_cpu_dsram_datain;
 
 //IM1
@@ -44,7 +44,7 @@ SRAM_wrapper IM1(
     .CS(1'b1),
     .OE(1'b1),
     .WEB(4'b1111),
-    .A(_from_cpu_isram_addr),
+    .A(_from_cpu_isram_addr[15:2]),
     .DI(32'd0),
     
     .DO(_from_IM1_DO)
@@ -55,7 +55,7 @@ SRAM_wrapper DM1(
     .CS(1'b1),
     .OE(1'b1),
     .WEB(_from_cpu_dsram_wen),
-    .A(_from_cpu_dsram_addr),
+    .A(_from_cpu_dsram_addr[15:2]),
     .DI(_from_cpu_dsram_datain),
     
     .DO(_from_DM1_DO)

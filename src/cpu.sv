@@ -3,11 +3,11 @@ module cpu(
     input nrst,
     
     input [31:0] isram_dataout,
-    output [13:0] isram_addr,
+    output [15:0] isram_addr,
 
     input [31:0] dsram_dataout,
     output [3:0] dsram_wen,
-    output [13:0] dsram_addr,
+    output [15:0] dsram_addr,
     output [31:0] dsram_datain
 );
 //////////////////////
@@ -161,7 +161,7 @@ pc _pc(
 
     .pc_out(_from_pc_pc_out)
 );
-assign isram_addr = _from_pc_pc_out;
+assign isram_addr = _from_pc_pc_out[15:0];
 
 assign branch_take_or_is_jump = _from_branch_comparator_branch_take | _from_decoder_is_jump;
 f1_f2_ppreg f1_f2_ppreg(
