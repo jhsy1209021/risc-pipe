@@ -3,12 +3,12 @@ module mmu(
     input [31:0] store_data,
     input [31:0] addr,
 
-    output [31:0] addrin,
+    output [13:0] addrin,
     output [31:0] datain,
     output reg [3:0] wen
 );
 
-assign addrin = addr;
+assign addrin = addr[13:0];
 assign datain = store_data;
 
 always@(*) begin
