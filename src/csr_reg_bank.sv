@@ -47,10 +47,22 @@ always@(posedge clk) begin
         //Define every CSR behavior
         else begin
             //CYCLE
-            { registers[1], registers[0] } <= { registers[1], registers[0] } + 64'd1;
+            registers[0] <= registers[0] + 32'd1;
+
+            //CYCLEH
+            if(registers[0] == 32'hFFFFFFFF)
+                registers[1] <= registers[1] + 32'h1;
 
             //INSTRET
-            { registers[3], registers[2] } <= (wb_is_a_inst == 1'b1) ? { registers[3], registers[2] } + 64'd1 : { registers[3], registers[2] };
+            if(wb_is_a_inst == 1'b1) begin
+                registers[2] <= registers[2] + 32'h1;
+            end
+
+            //INSTRETH
+            if(wb_is_a_inst == 1'b1) begin
+                if(registers[2] == 32'hFFFFFFFF)
+                    registers[3] <= registers[3] + 32'h1;
+            end
         end
     end
 end
