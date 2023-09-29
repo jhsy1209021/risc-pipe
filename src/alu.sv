@@ -6,7 +6,6 @@ module alu(
     output reg [31:0] result
 );
 
-wire [31:0] mult_result;
 wire [63:0] mult_output;
 reg [63:0] mult_operand1;
 reg [63:0] mult_operand2;
@@ -18,18 +17,21 @@ always@(*) begin
             result = (operand1 + operand2);
         `ALU_SUB:
             result = (operand1 - operand2);
+        `ALU_SLL:
+            result = operand1 << (operand2[4:0]);
         `ALU_SLT:
             result = (($signed(operand1)) < ($signed(operand2)));
         `ALU_SLTU:
             result = (operand1 < operand2);
         `ALU_XOR:
             result = (operand1 ^ operand2);
-        `ALU_SLL:
-            result = operand1 << (operand2[4:0]);
+        
         `ALU_SRL:
             result = operand1 >> (operand2[4:0]);
         `ALU_SRA:
-            result = operand1 >>> (operand2[4:0]);
+            result = $signed(operand1) >>> (operand2[4:0]);
+        `ALU_OR:
+            result = (operand1 | operand2);
         `ALU_AND:
             result = (operand1 & operand2);
 
@@ -39,6 +41,8 @@ always@(*) begin
         `ALU_MULHU:
             result = selected_mult_output;
 
+        default:
+            result = 32'd0;
     endcase
 end
 

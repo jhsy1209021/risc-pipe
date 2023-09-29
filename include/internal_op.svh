@@ -14,8 +14,6 @@
     `define ALU_MULH    4'b1011
     `define ALU_MULHSU  4'b1100
     `define ALU_MULHU   4'b1101
-    `define ALU_CSRSET  4'b1110
-    `define ALU_CSRCLR  4'b1111
 `endif
 
 `ifndef WB_INST

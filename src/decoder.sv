@@ -1,4 +1,5 @@
 module decoder(
+    input f2_d_ppreg_is_a_inst,
     input [31:0] inst,
     output is_auipc,
     output is_jump,
@@ -15,8 +16,7 @@ module decoder(
     output reg [2:0] wb_src,
     output reg [3:0] alu_op,
     output reg [4:0] mem_op,
-    output reg [15:0] csr_op,
-    output reg [1:0] data_dependency_check
+    output reg [15:0] csr_op
 );
 
 assign is_auipc = (`OPCODE == `AUIPC);
@@ -28,22 +28,28 @@ assign rs2 = `RS2;
 
 //Combinational --> indicate this stage contains a instuction
 always@(*) begin
-    case(`OPCODE)
-        `LUI,
-        `AUIPC,
-        `JAL,
-        `JALR,
-        `BRANCH,
-        `LOAD,
-        `STORE,
-        `OP_IMM,
-        `OP,
-        `SYSTEM:
-            is_a_inst = 1'b1;
+    if(f2_d_ppreg_is_a_inst == 1'b1) begin
+        case(`OPCODE)
+            `LUI,
+            `AUIPC,
+            `JAL,
+            `JALR,
+            `BRANCH,
+            `LOAD,
+            `STORE,
+            `OP_IMM,
+            `OP,
+            `SYSTEM:
+                is_a_inst = 1'b1;
 
-        default:
-            is_a_inst = 1'b0;
-    endcase
+            default:
+                is_a_inst = 1'b0;
+        endcase
+    end
+
+    else begin
+        is_a_inst = 1'b0;
+    end
 end
 
 //Combinational --> tell the hazard_eleminator there is a csr operation
@@ -79,7 +85,8 @@ always@(*) begin
         end
 
         //I-Type Load instruction
-        `LOAD: begin
+        `LOAD,
+        `JALR: begin
             imm = { {20{inst[31]}}, inst[31:20]};
         end
 
@@ -90,7 +97,7 @@ always@(*) begin
 
         //B-Type instruction
         `BRANCH: begin
-            imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+            imm = { {20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0 };
         end
 
         //U-Type instruction
@@ -100,9 +107,8 @@ always@(*) begin
         end
 
         //J-Type instruction
-        `JAL,
-        `JALR: begin
-            imm = { {11{inst[31]}}, inst[31], inst[19:12], inst[20], inst[30:21], 1'b0 };
+        `JAL: begin
+            imm = { {12{inst[31]}}, inst[19:12], inst[20], inst[30:25], inst[24:21], 1'b0 };
         end
 
         `SYSTEM: begin
@@ -170,13 +176,12 @@ always@(*) begin
 end
 
 //addr_gen_sel: Determine what kind of addr be generated.
-////AUIPC, JAL, BRANCH --> PC + imm
+////JAL, BRANCH --> PC + imm
 ////JALR --> rs1 + imm
 //1'b0: PC + imm
 //1'b1: rs1 + imm
 always@(*) begin
     case(`OPCODE)
-        `AUIPC,
         `JAL,
         `BRANCH: begin
             addr_gen_sel = 1'b0;
@@ -278,16 +283,39 @@ always@(*) begin
                         alu_op = `ALU_ADD;
                     else if(`FUNCT7 == 7'b0100000)
                         alu_op = `ALU_SUB;
+                    else if(`FUNCT7 == 7'b0000001)
+                        alu_op = `ALU_MUL;
                     else
                         alu_op = `ALU_ADD;
                 end
 
-                3'b001:
-                    alu_op = `ALU_SLL;
-                3'b010:
-                    alu_op = `ALU_SLT;
-                3'b011:
-                    alu_op = `ALU_SLTU;
+                3'b001: begin
+                    unique if(`FUNCT7 == 7'b0000000)
+                        alu_op = `ALU_SLL;
+                    else if(`FUNCT7 == 7'b0000001)
+                        alu_op = `ALU_MULH;
+                    else
+                        alu_op = `ALU_ADD;
+                end
+
+                3'b010: begin
+                    unique if(`FUNCT7 == 7'b0000000)
+                        alu_op = `ALU_SLT;
+                    else if(`FUNCT7 == 7'b0000001)
+                        alu_op = `ALU_MULHSU;
+                    else
+                        alu_op = `ALU_ADD;
+                end
+
+                3'b011: begin
+                    unique if(`FUNCT7 == 7'b0000000)
+                        alu_op = `ALU_SLTU;
+                    else if(`FUNCT7 == 7'b0000001)
+                        alu_op = `ALU_MULHU;
+                    else
+                        alu_op = `ALU_ADD;
+                end
+
                 3'b100:
                     alu_op = `ALU_XOR;
                 
@@ -308,15 +336,6 @@ always@(*) begin
                 default:
                     alu_op = `ALU_ADD;
             endcase
-        end
-
-        `SYSTEM: begin
-            unique if((`FUNCT3 == 3'b010) | (`FUNCT3 == 3'b110))
-                alu_op = `ALU_CSRSET;
-            else if((`FUNCT3 == 3'b011) | (`FUNCT3 == 3'b111))
-                alu_op = `ALU_CSRCLR;
-            else
-                alu_op = `ALU_ADD;
         end
 
         default:
@@ -457,9 +476,5 @@ always@(*) begin
         `CSR_CALC_OP = `CSR_NO_OP;
     end
 end
-
-//Data dependency check: Only enable when the opernd#_del = 0
-assign data_dependency_check[1] = (operand1_sel == 2'd0);
-assign data_dependency_check[0] = (operand2_sel == 2'd0);
 
 endmodule

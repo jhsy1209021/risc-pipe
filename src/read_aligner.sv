@@ -18,6 +18,8 @@ always@(*) begin
             read_part_byte = dataout[23:16];
         2'b11:
             read_part_byte = dataout[31:24];
+        default:
+            read_part_byte = 8'd0;
     endcase
 end
 

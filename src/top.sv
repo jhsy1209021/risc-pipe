@@ -5,13 +5,18 @@ module top(
     input clk,
     input rst
 );
+reg rst_reg;
+always@(posedge clk) begin
+    rst_reg <= rst;
+end
 
 wire nrst;
-assign nrst = ~rst;
+assign nrst = ~(rst_reg | rst);
 //////////////////////
 //Interconnect Wires//
 //////////////////////
 //cpu
+wire _from_cpu_isram_cs;
 wire [15:0] _from_cpu_isram_addr;
 wire [3:0] _from_cpu_dsram_wen;
 wire [15:0] _from_cpu_dsram_addr;
@@ -31,6 +36,7 @@ cpu _cpu(
     .nrst(nrst),
     
     .isram_dataout(_from_IM1_DO),
+    .isram_cs(_from_cpu_isram_cs),
     .isram_addr(_from_cpu_isram_addr),
 
     .dsram_dataout(_from_DM1_DO),
@@ -41,7 +47,7 @@ cpu _cpu(
 
 SRAM_wrapper IM1(
     .CK(clk),
-    .CS(1'b1),
+    .CS(_from_cpu_isram_cs),
     .OE(1'b1),
     .WEB(4'b1111),
     .A(_from_cpu_isram_addr[15:2]),

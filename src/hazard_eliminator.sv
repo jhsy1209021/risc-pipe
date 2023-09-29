@@ -4,9 +4,8 @@ module hazard_eliminator(
     input [4:0] decoded_rs2,
 
     input ex_is_a_inst,
-    input [4:0] ex_rs1,
-    input [4:0] ex_rs2,
-    input [1:0] ex_data_dependency_check,
+    input [4:0] ex_rd,
+    input [4:0] ex_mem_op,
 
     input m1_is_a_inst,
     input [4:0] m1_rd,
@@ -30,22 +29,16 @@ reg load_use_in_ex;
 //Load use Hazard --> Detect if there is a hazard
     //use in de --> stall F1/F2/D/E 1 cycle
 always@(*) begin
-    if((decoded_rs1 == m1_rd) && (m1_mem_op[4:3] == `MEM_READ))
+    if((decoded_rs1 == ex_rd) && (ex_mem_op[4:3] == `MEM_READ))
+        load_use_in_de = 1'b1;
+    else if((decoded_rs2 == ex_rd) && (ex_mem_op[4:3] == `MEM_READ))
+        load_use_in_de = 1'b1;
+    else if((decoded_rs1 == m1_rd) && (m1_mem_op[4:3] == `MEM_READ))
         load_use_in_de = 1'b1;
     else if((decoded_rs2 == m1_rd) && (m1_mem_op[4:3] == `MEM_READ))
         load_use_in_de = 1'b1;
     else
         load_use_in_de = 1'b0;
-end
-
-    //use in ex --> stall F1/F2/D 2 cycle
-always@(*) begin
-    if((ex_rs1 == m1_rd) && (m1_mem_op[4:3] == `MEM_READ) && (ex_data_dependency_check[0] == 1'b1))
-        load_use_in_ex = 1'b1;
-    else if((ex_rs2 == m1_rd) && (m1_mem_op[4:3] == `MEM_READ) && (ex_data_dependency_check[1] == 1'b1))
-        load_use_in_ex = 1'b1;
-    else
-        load_use_in_ex = 1'b0;
 end
 
 //CSR Hazard --> stall F1/F2/D until there is no instruction at the rear.
@@ -54,18 +47,8 @@ end
 
 //Output Stall/Flush signal to eleminate hazard
 always@(*) begin
-    //Load use: use in ex
-    priority if((load_use_in_ex == 1'b1) && (m1_is_a_inst == 1'b1)) begin
-        stall_pc = 1'b1;
-        stall_f2 = 1'b1;
-        stall_de = 1'b1;
-        stall_ex = 1'b1;
-        flush_ex = 1'b0;
-        flush_m1 = 1'b1;
-    end
-
     //Load use: use in de
-    else if((load_use_in_de == 1'b1) && ((ex_is_a_inst == 1'b1) || (m1_is_a_inst == 1'b1))) begin
+    priority if((load_use_in_de == 1'b1) && ((ex_is_a_inst == 1'b1) || (m1_is_a_inst == 1'b1))) begin
         stall_pc = 1'b1;
         stall_f2 = 1'b1;
         stall_de = 1'b1;

@@ -4,7 +4,6 @@ module pc(
     input stall,
     input is_branch,
     input is_jump,
-    input is_auipc,
     input [31:0] new_pc,
     output reg [31:0] pc_out
 );
@@ -16,7 +15,7 @@ always@(posedge clk) begin
     else begin
         if(stall)
             pc_out <= pc_out;
-        else if(is_branch | is_jump | is_auipc)
+        else if(is_branch | is_jump)
             pc_out <= new_pc;
         else
             pc_out <= pc_out + 32'd4;
