@@ -1,0 +1,204 @@
+Magic 271485
+Revision Verdi_O-2018.09
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 0 23 1920 1017 213 219
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/home/jhsy1209021/workspace/VSD/Hw1/build/top.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 7341719.904360 7380007.309974
+cursor 7347500.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 52
+; marker line index
+markerPos 90
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByRising
+
+
+addGroup "Fetch1"
+activeDirFile "" "/home/jhsy1209021/workspace/VSD/Hw1/build/top.fsdb"
+addSignal -h 15 /top_tb/TOP/_cpu/_pc/clk
+addSignal -h 15 -holdScope pc_out[31:0]
+addGroup "Fetch2"
+addSignal -h 15 /top_tb/TOP/_cpu/f1_f2_ppreg/pc_out[31:0]
+addSignal -h 15 /top_tb/TOP/_cpu/isram_cs
+addSignal -h 15 -holdScope isram_addr[15:0]
+addSignal -h 15 -holdScope isram_dataout[31:0]
+addGroup "Decode"
+addSignal -h 15 -UNSIGNED -HEX /top_tb/TOP/_cpu/f2_d_ppreg/pc_out[31:0]
+addSignal -h 15 -holdScope inst_out[31:0]
+addSubGroup "Branch Comparator"
+addSignal -h 15 /top_tb/TOP/_cpu/_branch_comparator/operand1[31:0]
+addSignal -h 15 -holdScope operand2[31:0]
+addSignal -h 15 -holdScope branch_take
+endSubGroup "Branch Comparator"
+addSubGroup "Decoder"
+addSignal -h 15 /top_tb/TOP/_cpu/_decoder/is_branch
+addSignal -h 15 -holdScope is_jump
+addSignal -h 15 -holdScope rs1[4:0]
+addSignal -h 15 -holdScope rs2[4:0]
+addSignal -h 15 -holdScope alu_op[3:0]
+endSubGroup "Decoder"
+addSubGroup "Regfile" -e FALSE
+addSignal -h 15 /top_tb/TOP/_cpu/_regfile/raddr1[4:0]
+addSignal -h 15 -holdScope rdata1[31:0]
+addSignal -h 15 -holdScope raddr2[4:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope rdata2[31:0]
+addSignal -h 15 /top_tb/TOP/_cpu/de_operand1[31:0]
+addSignal -h 15 -holdScope de_operand2[31:0]
+addSignal -h 15 -holdScope d_e_ppreg_operand1[31:0]
+addSignal -h 15 -holdScope d_e_ppreg_operand2[31:0]
+addSignal -h 15 /top_tb/TOP/_cpu/_forwarding_unit/de_operand1_sel
+addSignal -h 15 -holdScope de_operand2_sel
+endSubGroup "Regfile"
+addGroup "Execute"
+addSignal -h 15 /top_tb/TOP/_cpu/d_e_ppreg/pc_out[31:0]
+addGroup "ALU"
+addSignal -h 15 -UNSIGNED -BIN /top_tb/TOP/_cpu/_alu/alu_op[3:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope operand1[31:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope operand2[31:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope result[31:0]
+addSignal -h 15 -holdScope mult_operand1[63:0]
+addSignal -h 15 -holdScope mult_operand2[63:0]
+addSignal -h 15 -holdScope mult_output[63:0]
+addGroup "Mem1"
+addSignal -h 15 /top_tb/TOP/_cpu/_e_m1_ppreg/pc_out[31:0]
+addSignal -h 15 -UNSIGNED -BIN -holdScope mem_op_out[4:0]
+addSignal -h 15 -holdScope operand2_out[31:0]
+addSubGroup "MMU"
+addSignal -h 15 /top_tb/TOP/_cpu/_mmu/wen[3:0]
+addSignal -h 15 -holdScope store_data[31:0]
+addSignal -h 15 -holdScope addrin[15:0]
+addSignal -h 15 -holdScope datain[31:0]
+addSignal -h 15 -holdScope store_aligned[31:0]
+endSubGroup "MMU"
+addSubGroup "DSRAM"
+addSignal -h 15 -UNSIGNED -UDEC /top_tb/TOP/DM1/A[13:0]
+addSignal -h 15 -holdScope DI[31:0]
+addSignal -h 15 -holdScope DO[31:0]
+endSubGroup "DSRAM"
+addGroup "Mem2"
+addSignal -h 15 /top_tb/TOP/_cpu/_m1_m2_ppreg/pc_out[31:0]
+addSignal -h 15 -holdScope rd_out[4:0]
+addSignal -h 15 -holdScope result_out[31:0]
+addSignal -h 15 /top_tb/TOP/_cpu/dsram_addr[15:0]
+addSignal -h 15 -holdScope dsram_datain[31:0]
+addSignal -h 15 -holdScope dsram_dataout[31:0]
+addSignal -h 15 -holdScope dsram_wen[3:0]
+addGroup "WB"
+addSignal -h 15 /top_tb/TOP/_cpu/_m2_wb_ppreg/pc_out[31:0]
+addSignal -h 15 -holdScope rd_out[4:0]
+addSignal -h 15 /top_tb/TOP/_cpu/_wb_unit/wen
+addSignal -h 15 -holdScope waddr[4:0]
+addSignal -h 15 -holdScope wdata[31:0]
+addSignal -h 15 -holdScope dmem_dataout[31:0]
+addSignal -h 15 -holdScope csr_dataout[31:0]
+addSignal -h 15 -holdScope result[31:0]
+addGroup "Forwarding Unit"
+addSignal -h 15 /top_tb/TOP/_cpu/_forwarding_unit/de_operand1_sel
+addSignal -h 15 -holdScope de_operand2_sel
+addSignal -h 15 -holdScope decoded_rs1[4:0]
+addSignal -h 15 -holdScope decoded_rs2[4:0]
+addSignal -h 15 -holdScope ex_rd[4:0]
+addSignal -h 15 -holdScope m1_rd[4:0]
+addSignal -h 15 -holdScope m2_rd[4:0]
+addSignal -h 15 -holdScope wb_rd[4:0]
+addGroup "Hazard Eliminator"
+addSignal -h 15 /top_tb/TOP/_cpu/_hazard_eliminator/stall_pc
+addSignal -h 15 -holdScope stall_f2
+addSignal -h 15 -holdScope stall_de
+addSignal -h 15 -holdScope stall_ex
+addSignal -h 15 -holdScope flush_ex
+addSignal -h 15 -holdScope flush_m1
+addGroup "CSR Regfile"
+addSignal -h 15 /top_tb/TOP/_cpu/_csr_reg_bank/wen
+addSignal -h 15 -holdScope wb_is_a_inst
+addSignal -expanded -h 15 -UNSIGNED -HEX -holdScope registers[0:3]
+addSignal -h 15 -UNSIGNED -HEX -holdScope registers[2][31:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope registers[3][31:0]
+addGroup "G12"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+activeDirFile "" "/home/jhsy1209021/workspace/VSD/Hw1/build/top.fsdb"
+
+GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
+getSignalForm close
+
+"/top_tb"
+"/top_tb/TOP"
+"/top_tb/TOP/DM1"
+"/top_tb/TOP/_cpu"
+"/top_tb/TOP/_cpu/_alu"
+"/top_tb/TOP/_cpu/_branch_comparator"
+"/top_tb/TOP/_cpu/_csr_reg_bank"
+"/top_tb/TOP/_cpu/_decoder"
+"/top_tb/TOP/_cpu/_e_m1_ppreg"
+"/top_tb/TOP/_cpu/_forwarding_unit"
+"/top_tb/TOP/_cpu/_hazard_eliminator"
+"/top_tb/TOP/_cpu/_m2_wb_ppreg"
+"/top_tb/TOP/_cpu/_mmu"
+"/top_tb/TOP/_cpu/_pc"
+"/top_tb/TOP/_cpu/_regfile"
+"/top_tb/TOP/_cpu/_wb_unit"
+"/top_tb/TOP/_cpu/d_e_ppreg"
+"/top_tb/TOP/_cpu/f2_d_ppreg"
+
+SCOPE_LIST_BEGIN
+"/top_tb"
+"/top_tb/TOP"
+"/top_tb/TOP/_cpu"
+"/top_tb/TOP/_cpu/_pc"
+"/top_tb/TOP/_cpu/f1_f2_ppreg"
+"/top_tb/TOP/_cpu/_decoder"
+"/top_tb/TOP/_cpu/_csr_reg_bank"
+"/top_tb/TOP/_cpu/_regfile"
+"/top_tb/TOP/_cpu/f2_d_ppreg"
+"/top_tb/TOP/_cpu/d_e_ppreg"
+"/top_tb/TOP/_cpu/_alu"
+"/top_tb/TOP/_cpu/_e_m1_ppreg"
+"/top_tb/TOP/_cpu/_hazard_eliminator"
+"/top_tb/TOP/_cpu/_m1_m2_ppreg"
+"/top_tb/TOP/_cpu/_wb_unit"
+"/top_tb/TOP/_cpu/_m2_wb_ppreg"
+"/top_tb/TOP/_cpu/_branch_comparator"
+"/top_tb/TOP/_cpu/_forwarding_unit"
+"/top_tb/TOP/_cpu/_mmu"
+"/top_tb/TOP/DM1"
+"/top_tb/TOP/_cpu/_csr_alu"
+"/top_tb/TOP/_cpu/_csr_reg_bank/Unnamed_$csr_reg_bank_sv_39"
+SCOPE_LIST_END
+
+GETSIGNALFORM_SCOPE_HIERARCHY_END
+
+
