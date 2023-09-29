@@ -1,1 +1,23 @@
 *.docx
+build/
+
+#Compiled file
+*.o
+*.hex
+main
+main.log
+result_rtl.txt
+result_syn.txt
+
+#nWave log file
+novas.conf
+novas.rc
+nWaveLog/
+
+#Synthesized file
+top_syn.sdf
+top_syn.v
+
+#Design Vision Generated files
+default.svf
+command.log
