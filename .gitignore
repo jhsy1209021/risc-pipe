@@ -21,3 +21,6 @@ top_syn.v
 #Design Vision Generated files
 default.svf
 command.log
+
+#Jaspergold Superlint Generated files
+lint/ 
