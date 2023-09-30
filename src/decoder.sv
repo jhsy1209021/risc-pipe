@@ -1,7 +1,6 @@
 module decoder(
     input f2_d_ppreg_is_a_inst,
     input [31:0] inst,
-    output is_auipc,
     output is_jump,
     output is_branch,
     output reg is_csr_op,
@@ -19,7 +18,6 @@ module decoder(
     output reg [15:0] csr_op
 );
 
-assign is_auipc = (`OPCODE == `AUIPC);
 assign is_jump = (`OPCODE == `JAL) | (`OPCODE == `JALR);
 assign is_branch = (`OPCODE == `BRANCH);
 assign rd = `RD;
@@ -223,7 +221,7 @@ always@(*) begin
         default: begin
             //`BRANCH, `STORE
             `WB_WEN = 1'b0;
-            `WB_SRC = 1'b0;
+            `WB_SRC = 2'b0;
         end
 
     endcase

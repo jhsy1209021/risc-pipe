@@ -1,6 +1,4 @@
 module forwarding_unit(
-    input clk,
-    input nrst,
     input [4:0] decoded_rs1,
     input [4:0] decoded_rs2,
 

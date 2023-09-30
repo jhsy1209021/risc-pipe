@@ -23,7 +23,6 @@ module hazard_eliminator(
 );
 
 reg load_use_in_de;
-reg load_use_in_ex;
 //wire csr_stall;
 
 //Load use Hazard --> Detect if there is a hazard

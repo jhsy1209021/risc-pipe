@@ -6,7 +6,7 @@ module read_aligner(
     output reg [31:0] aligned_dataout
 );
 reg [7:0] read_part_byte;
-reg [16:0] read_part_half;
+reg [15:0] read_part_half;
 
 always@(*) begin
     unique case(addr[1:0])
@@ -32,7 +32,7 @@ always@(*) begin
         2'b10:
             read_part_half = dataout[31:16];
         default:
-            read_part_half = 32'd0;
+            read_part_half = 16'd0;
     endcase
 end
 

@@ -4,8 +4,6 @@ module e_m1_ppreg(
     input flush,
     input is_a_inst,
     input [31:0] pc,
-    input [4:0] rs1,
-    input [4:0] rs2,
     input [4:0] rd,
     input [4:0] mem_op,
     input [31:0] result,
@@ -17,8 +15,6 @@ module e_m1_ppreg(
 
     output reg is_a_inst_out,
     output reg [31:0] pc_out,
-    output reg [4:0] rs1_out,
-    output reg [4:0] rs2_out,
     output reg [4:0] rd_out,
     output reg [4:0] mem_op_out,
     output reg [31:0] result_out,
@@ -33,8 +29,6 @@ always@(posedge clk) begin
     if(~nrst) begin
         is_a_inst_out <= 1'd0;
         pc_out <= 32'd0;
-        rs1_out <= 5'd0;
-        rs2_out <= 5'd0;
         rd_out <= 5'd0;
         mem_op_out <= 5'd0;
         result_out <= 32'd0;
@@ -49,8 +43,6 @@ always@(posedge clk) begin
         priority if(flush) begin
             is_a_inst_out <= 1'd0;
             pc_out <= 32'd0;
-            rs1_out <= 5'd0;
-            rs2_out <= 5'd0;
             rd_out <= 5'd0;
             mem_op_out <= 5'd0;
             result_out <= 32'd0;
@@ -64,8 +56,6 @@ always@(posedge clk) begin
         else begin
             is_a_inst_out <= is_a_inst;
             pc_out <= pc;
-            rs1_out <= rs1;
-            rs2_out <= rs2;
             rd_out <= rd;
             mem_op_out <= mem_op;
             result_out <= result;

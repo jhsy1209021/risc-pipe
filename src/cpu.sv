@@ -30,7 +30,6 @@ wire [31:0] _from_f2_d_ppreg_pc_out;
 wire [31:0] isram_dataout_or_nop;
 
 //From decoder
-wire _from_decoder_is_auipc;
 wire _from_decoder_is_jump;
 wire _from_decoder_is_branch;
 wire _from_decoder_is_csr_op;
@@ -46,7 +45,6 @@ wire [2:0] _from_decoder_wb_src;
 wire [3:0] _from_decoder_alu_op;
 wire [4:0] _from_decoder_mem_op;
 wire [15:0] _from_decoder_csr_op;
-wire [1:0] _from_decoder_data_dependency_check;
 
 //From addr_gen
 wire [31:0] _from_addr_gen_next_pc;
@@ -62,8 +60,6 @@ wire [31:0] de_operand2;
 
 //From d_e_ppreg
 wire _from_d_e_ppreg_is_a_inst_out;
-wire [4:0] _from_d_e_ppreg_rs1_out;
-wire [4:0] _from_d_e_ppreg_rs2_out;
 wire [4:0] _from_d_e_ppreg_rd_out;
 wire [31:0] _from_d_e_ppreg_pc_out;
 wire [31:0] _from_d_e_ppreg_operand1_out;
@@ -85,8 +81,6 @@ wire [31:0] _from_csr_alu_csr_result;
 //From e_m1_ppreg
 wire _from_e_m1_ppreg_is_a_inst_out;
 wire [31:0] _from_e_m1_ppreg_pc_out;
-wire [4:0] _from_e_m1_ppreg_rs1_out;
-wire [4:0] _from_e_m1_ppreg_rs2_out;
 wire [4:0] _from_e_m1_ppreg_rd_out;
 wire [4:0] _from_e_m1_ppreg_mem_op_out;
 wire [31:0] _from_e_m1_ppreg_result_out;
@@ -194,7 +188,6 @@ decoder _decoder(
     .inst(_from_f2_d_ppreg_inst_out),
     .f2_d_ppreg_is_a_inst(_from_f2_d_ppreg_is_a_inst_out),
 
-    .is_auipc(_from_decoder_is_auipc),
     .is_jump(_from_decoder_is_jump),
     .is_branch(_from_decoder_is_branch),
     .is_csr_op(_from_decoder_is_csr_op),
@@ -278,8 +271,6 @@ d_e_ppreg d_e_ppreg(
     .stall(_from_hazard_eliminator_stall_ex),
     .flush(_from_hazard_eliminator_flush_ex),
     .is_a_inst(_from_decoder_is_a_inst),
-    .rs1(_from_decoder_rs1),
-    .rs2(_from_decoder_rs2),
     .pc(_from_f2_d_ppreg_pc_out),
     .mem_op(_from_decoder_mem_op),
     .alu_op(_from_decoder_alu_op),
@@ -291,8 +282,6 @@ d_e_ppreg d_e_ppreg(
     .reg2(de_operand2),
 
     .is_a_inst_out(_from_d_e_ppreg_is_a_inst_out),
-    .rs1_out(_from_d_e_ppreg_rs1_out),
-    .rs2_out(_from_d_e_ppreg_rs2_out),
     .rd_out(_from_d_e_ppreg_rd_out),
     .pc_out(_from_d_e_ppreg_pc_out),
     .operand1_out(_from_d_e_ppreg_operand1_out),
@@ -328,8 +317,6 @@ e_m1_ppreg _e_m1_ppreg(
     .flush(_from_hazard_eliminator_flush_m1),
     .is_a_inst(_from_d_e_ppreg_is_a_inst_out),
     .pc(_from_d_e_ppreg_pc_out),
-    .rs1(_from_d_e_ppreg_rs1_out),
-    .rs2(_from_d_e_ppreg_rs2_out),
     .rd(_from_d_e_ppreg_rd_out),
     .mem_op(_from_d_e_ppreg_mem_op_out),
     .result(_from_alu_result),
@@ -341,8 +328,6 @@ e_m1_ppreg _e_m1_ppreg(
 
     .is_a_inst_out(_from_e_m1_ppreg_is_a_inst_out),
     .pc_out(_from_e_m1_ppreg_pc_out),
-    .rs1_out(_from_e_m1_ppreg_rs1_out),
-    .rs2_out(_from_e_m1_ppreg_rs2_out),
     .rd_out(_from_e_m1_ppreg_rd_out),
     .mem_op_out(_from_e_m1_ppreg_mem_op_out),
     .result_out(_from_e_m1_ppreg_result_out),
@@ -432,8 +417,6 @@ wb_unit _wb_unit(
 );
 
 forwarding_unit _forwarding_unit(
-    .clk(clk),
-    .nrst(nrst),
     .decoded_rs1(_from_decoder_rs1),
     .decoded_rs2(_from_decoder_rs2),
 
