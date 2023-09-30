@@ -24,3 +24,6 @@ command.log
 
 #Jaspergold Superlint Generated files
 lint/ 
+
+#vscode generated
+.vscode/
