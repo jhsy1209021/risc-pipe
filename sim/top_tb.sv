@@ -5,7 +5,7 @@
 `include "top_syn.v"
 `include "SRAM/SRAM.v"
 `timescale 1ns/10ps
-`include "/usr/cad/CBDK/CBDK018_UMC_Faraday_v1.0/orig_lib/fsa0m_a/2009Q2v2.0/GENERIC_CORE/FrontEnd/verilog/fsa0m_a_generic_core_21.lib"
+`include "/opt/CIC/Cell_Libraries/CBDK018_UMC_Faraday_v1.0/orig_lib/fsa0m_a/2009Q2v2.0/GENERIC_CORE/FrontEnd/verilog/fsa0m_a_generic_core_21.lib"
 `else
 `include "top.sv"
 `include "SRAM/SRAM_rtl.sv"

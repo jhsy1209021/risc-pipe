@@ -11,7 +11,7 @@ config_rtlds -rule  -disable -tag { BUS_IS_FLOT ASG_IS_XRCH }
 #config_rtlds -rule  -reset -sync
 # vsd2023_constrain //
 
-analyze -sv +incdir+../include+../src/AXI ../src/top.sv ../sim/SRAM/SRAM_rtl.sv
+analyze -sv +incdir+../include+../src/AXI+../src ../src/top.sv ../sim/SRAM/SRAM_rtl.sv
 elaborate -bbox true -top top
 
 # Setup clock and reset
