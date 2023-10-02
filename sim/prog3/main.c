@@ -1,9 +1,9 @@
 int main()
 {
    int modulo, num1, num2;
-   extern int div1;
-   extern int div2;
-   extern int _test_start;
+   extern unsigned int div1;
+   extern unsigned int div2;
+   extern unsigned int _test_start;
    num1 = (div1 > div2) ? div1 : div2;
    num2 = (div1 > div2) ? div2 : div1;
 
